@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  
+}
+
+model Anime {
+  id    String     @id @default(cuid())
+  title String
+  slug  String @unique
+  cover String?
+  synopsis String? @db.Text
+  genres Genre[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum Genre {
+  ACTION
+  ADVENTURE
+  COMEDY
+  CRIME
+  DEMON
+  DRAMA
+  ECCHI
+  FANTASY
+  GAME
+  HENTAI
+  HISTORICAL
+  HORROR
+  JUMP
+  KIDS
+  MAGIC
+  MUSIC
+  MYSTIC
+  PSYCHO
+  ROMANCE
+  SCHOOL
+  SCIENCE
+  SLICE
+  SPIRIT
+  SPORT
+  SUSPENSE
+  SUPERNATURAL
+  THRILLER
+  VIOLENCE
+  WEBTOON
+}
