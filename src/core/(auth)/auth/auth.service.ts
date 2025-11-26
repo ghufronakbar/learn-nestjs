@@ -4,11 +4,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { TokenService } from '../token/token.service';
-import { RegisterAuthDto } from './dto/register-auth.dto';
-import { LoginAuthDto } from './dto/login-auth.dto';
-import { BcryptService } from './bcrypt/bcrypt.service';
+import { RegisterAuthDto } from '../dto/register-auth.dto';
+import { LoginAuthDto } from '../dto/login-auth.dto';
+import { BcryptService } from '../bcrypt/bcrypt.service';
 import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
-import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
