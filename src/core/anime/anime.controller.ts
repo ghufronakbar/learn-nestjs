@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 import { CreateAnimeDto } from './dto/create-anime.dto';
@@ -13,8 +14,10 @@ import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
 import { QueryParams } from 'src/common/decorators/query-params.decorator';
 import { FilterParams } from 'src/common/interfaces/filter.interface';
+import { AuthGuard } from '../(auth)/auth/auth.guard';
 
 @Controller('anime')
+@UseGuards(AuthGuard)
 export class AnimeController {
   constructor(private readonly animeService: AnimeService) {}
 

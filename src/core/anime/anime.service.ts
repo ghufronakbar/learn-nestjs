@@ -7,7 +7,7 @@ import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
 import { FilterParams } from 'src/common/interfaces/filter.interface';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AnimeService {
@@ -26,7 +26,9 @@ export class AnimeService {
       },
     });
     if (checkAnime) {
-      throw new ConflictException('Anime already exists');
+      throw new ConflictException(
+        `Anime ${createAnimeDto.title} already exists`,
+      );
     }
     return await this.prisma.anime.create({
       data: { ...createAnimeDto, slug },
@@ -96,11 +98,29 @@ export class AnimeService {
     if (!anime) {
       throw new NotFoundException('Anime not found');
     }
+    let slug = anime.slug;
+    if (updateAnimeDto.title && updateAnimeDto.title !== anime.title) {
+      const newSlug = this.generateSlug(updateAnimeDto.title);
+      const checkNewSlug = await this.prisma.anime.findUnique({
+        where: {
+          slug: newSlug,
+        },
+      });
+      if (checkNewSlug) {
+        throw new ConflictException(
+          `Anime ${updateAnimeDto.title} already exists`,
+        );
+      }
+      slug = newSlug;
+    }
     return await this.prisma.anime.update({
       where: {
         id,
       },
-      data: updateAnimeDto,
+      data: {
+        ...updateAnimeDto,
+        slug,
+      },
     });
   }
 
