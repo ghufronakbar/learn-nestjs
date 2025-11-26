@@ -39,7 +39,6 @@ export class TransformInterceptor<T>
           'total' in res &&
           'params' in res;
 
-        console.log({ isPaginated });
         if (isPaginated) {
           const { data, total, params } = res;
           const { page, limit } = params;
