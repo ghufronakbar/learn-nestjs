@@ -6,16 +6,24 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Anime {
-  id    String     @id @default(cuid())
-  title String
-  slug  String @unique
-  cover String?
-  synopsis String? @db.Text
-  genres Genre[]
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  cover     String?
+  synopsis  String?  @db.Text
+  genres    Genre[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
