@@ -10,12 +10,12 @@ import { DecodedPayloadDto } from './dto/decoded-payload.dto';
 
 @Injectable()
 export class TokenService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) { }
 
   generateAccessToken(payload: object) {
-    if (!ENV.auth.jwtAccessTokenSecret) {
+    if (!ENV.auth.jwtSecret) {
       throw new InternalServerErrorException(
-        'JWT_ACCESS_TOKEN_SECRET is not defined',
+        'JWT_SECRET is not defined',
       );
     }
     return this.jwtService.sign(payload, {
@@ -25,9 +25,9 @@ export class TokenService {
   }
 
   generateRefreshToken(payload: object) {
-    if (!ENV.auth.jwtRefreshTokenSecret) {
+    if (!ENV.auth.jwtSecret) {
       throw new InternalServerErrorException(
-        'JWT_REFRESH_TOKEN_SECRET is not defined',
+        'JWT_SECRET is not defined',
       );
     }
     return this.jwtService.sign(payload, {
@@ -38,13 +38,13 @@ export class TokenService {
 
   async verifyAccessToken(token: string) {
     try {
-      if (!ENV.auth.jwtAccessTokenSecret) {
+      if (!ENV.auth.jwtSecret) {
         throw new InternalServerErrorException(
-          'JWT_ACCESS_TOKEN_SECRET is not defined',
+          'JWT_SECRET is not defined',
         );
       }
       const decodedPayload = this.jwtService.verify(token, {
-        secret: ENV.auth.jwtAccessTokenSecret,
+        secret: ENV.auth.jwtSecret,
       });
       return await parseDto(DecodedPayloadDto, decodedPayload);
     } catch {
@@ -54,13 +54,13 @@ export class TokenService {
 
   async verifyRefreshToken(token: string) {
     try {
-      if (!ENV.auth.jwtRefreshTokenSecret) {
+      if (!ENV.auth.jwtSecret) {
         throw new InternalServerErrorException(
-          'JWT_REFRESH_TOKEN_SECRET is not defined',
+          'JWT_SECRET is not defined',
         );
       }
       const decodedPayload = this.jwtService.verify(token, {
-        secret: ENV.auth.jwtRefreshTokenSecret,
+        secret: ENV.auth.jwtSecret,
       });
       return await parseDto(DecodedPayloadDto, decodedPayload);
     } catch {

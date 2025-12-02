@@ -10,7 +10,7 @@ import { ENV } from 'src/constants/env';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(private jwtService: JwtService) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const payload = await this.jwtService.verifyAsync(token, {
-        secret: ENV.auth.jwtRefreshTokenSecret,
+        secret: ENV.auth.jwtSecret,
       });
       request['user'] = payload;
     } catch {

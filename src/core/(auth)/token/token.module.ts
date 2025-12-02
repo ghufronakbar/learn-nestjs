@@ -7,10 +7,10 @@ import { ENV } from 'src/constants/env';
   imports: [
     JwtModule.register({
       global: true,
-      secret: ENV.auth.jwtRefreshTokenSecret,
+      secret: ENV.auth.jwtSecret,
     }),
   ],
   providers: [TokenService],
   exports: [TokenService],
 })
-export class TokenModule {}
+export class TokenModule { }

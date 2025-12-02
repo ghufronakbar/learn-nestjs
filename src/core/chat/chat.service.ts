@@ -7,12 +7,11 @@ import {
 import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
 import { CreateRoomChatDto } from './dto/create-room-chat.dto';
 import { SendMessageDto } from './dto/send-message';
-import { FilterParams } from 'src/common/interfaces/filter.interface';
-import { Prisma } from '@prisma/client';
+import { ChatGateway } from './chat.gateway';
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService, private readonly chatGateway: ChatGateway) { }
 
   async getAllRoomChat(userId: string) {
     const roomChat = await this.prisma.roomChat.findMany({
@@ -189,7 +188,19 @@ export class ChatService {
         content: payload.content,
         type: payload.type,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatar: true,
+          }
+        }
+      }
     });
+
+    this.chatGateway.server.emit('newMessage', message);
 
     return message;
   }
