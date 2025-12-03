@@ -95,3 +95,13 @@ enum Genre {
   VIOLENCE
   WEBTOON
 }
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String
+  key       String
+  hash      String   @unique
+  mimeType  String
+  size      Int
+  createdAt DateTime @default(now())
+}
