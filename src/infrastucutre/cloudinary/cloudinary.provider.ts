@@ -1,7 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { ENV } from '../../constants/env';
+import { Provider } from '@nestjs/common';
 
-export const CloudinaryProvider = {
+export const CloudinaryProvider: Provider = {
     provide: 'CLOUDINARY',
     useFactory: () => {
         return cloudinary.config({
