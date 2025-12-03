@@ -2,7 +2,7 @@ import { Injectable, BadRequestException, InternalServerErrorException } from '@
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 import * as crypto from 'crypto';
 import { ENV } from 'src/constants/env';
-import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
+import { PrismaService } from 'src/infrastucutre/prisma/prisma.service';
 import { Readable } from 'stream';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './infrastucutre/config/app/app.module';
+import { AppModule } from './infrastucutre/app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ENV } from './constants/env';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';

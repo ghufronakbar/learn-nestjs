@@ -5,13 +5,13 @@ import {
 } from '@nestjs/common';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
-import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
+import { PrismaService } from 'src/infrastucutre/prisma/prisma.service';
 import { FilterParams } from 'src/common/interfaces/filter.interface';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AnimeService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private generateSlug(title: string) {
     const normalizeTitle = decodeURIComponent(title);
@@ -63,8 +63,8 @@ export class AnimeService {
         take: queryParams?.limit,
         orderBy: queryParams?.sortBy
           ? {
-              [queryParams?.sortBy]: queryParams?.sort,
-            }
+            [queryParams?.sortBy]: queryParams?.sort,
+          }
           : undefined,
         where: this.generateWhereClause(queryParams),
       }),

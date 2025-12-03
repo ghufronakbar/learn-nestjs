@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { FilterParams } from 'src/common/interfaces/filter.interface';
-import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
+import { PrismaService } from 'src/infrastucutre/prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private generateWhereClause(queryParams?: Partial<FilterParams>) {
     const whereClause: Prisma.UserWhereInput = {};
@@ -25,8 +25,8 @@ export class UserService {
         take: queryParams?.limit,
         orderBy: queryParams?.sortBy
           ? {
-              [queryParams?.sortBy]: queryParams?.sort,
-            }
+            [queryParams?.sortBy]: queryParams?.sort,
+          }
           : undefined,
         where: this.generateWhereClause(queryParams),
         select: {

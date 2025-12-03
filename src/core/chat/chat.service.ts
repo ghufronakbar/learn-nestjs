@@ -4,7 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
+import { PrismaService } from 'src/infrastucutre/prisma/prisma.service';
 import { CreateRoomChatDto } from './dto/create-room-chat.dto';
 import { SendMessageDto } from './dto/send-message';
 import { ChatGateway } from './chat.gateway';

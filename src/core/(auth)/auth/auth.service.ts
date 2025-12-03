@@ -7,7 +7,7 @@ import { TokenService } from '../token/token.service';
 import { RegisterAuthDto } from '../dto/register-auth.dto';
 import { LoginAuthDto } from '../dto/login-auth.dto';
 import { BcryptService } from '../bcrypt/bcrypt.service';
-import { PrismaService } from 'src/infrastucutre/config/database/prisma/prisma.service';
+import { PrismaService } from 'src/infrastucutre/prisma/prisma.service';
 import { RefreshTokenDto } from '../dto/refresh-token.dto';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly bcryptService: BcryptService,
     private readonly prismaService: PrismaService,
-  ) {}
+  ) { }
 
   async login(payload: LoginAuthDto) {
     const user = await this.prismaService.user.findUnique({

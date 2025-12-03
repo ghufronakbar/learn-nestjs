@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { ENV } from '../../../constants/env';
+import { ENV } from '../../constants/env';
 
 export const CloudinaryProvider = {
     provide: 'CLOUDINARY',
