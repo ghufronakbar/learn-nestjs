@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { AuthGuard } from '../(auth)/auth/auth.guard';
 import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
@@ -6,11 +6,13 @@ import { User } from 'src/common/decorators/user-decorator';
 import { DecodedPayloadDto } from '../(auth)/token/dto/decoded-payload.dto';
 import { CreateRoomChatDto } from './dto/create-room-chat.dto';
 import { SendMessageDto } from './dto/send-message';
+import { $Enums } from '@prisma/client';
+import { isURL } from 'class-validator';
 
 @Controller('chat')
 @UseGuards(AuthGuard)
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(private readonly chatService: ChatService) { }
 
   @Get('room')
   @ResponseMessage('Success get all room chat')
@@ -42,6 +44,13 @@ export class ChatController {
     @User() user: DecodedPayloadDto,
     @Body() payload: SendMessageDto,
   ) {
+
+    if (payload.type === $Enums.MessageType.IMAGE) {
+      if (!payload.content || !isURL(payload.content)) {
+        throw new BadRequestException('If type is IMAGE, content must be a valid URL');
+      }
+    }
+
     return this.chatService.sendChat(payload, user.id);
   }
 }
